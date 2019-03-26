@@ -1,0 +1,56 @@
+version: '3.2'
+
+services:
+  docker-postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: oauth2
+    volumes:
+      - type: volume
+        source: psql_data
+        target: /var/lib/postgresql/data
+    networks: 
+      - app
+    restart: always
+  oauth:
+    image: zoila/oauth
+    build:
+      context: oauthserver
+      dockerfile: Dockerfile
+    depends_on:
+      - docker-postgres
+    ports:
+      - 9090:9090
+    networks:
+      - app
+  api:
+    image: zoila/api
+    build:
+      context: EventoResource
+      dockerfile: Dockerfile
+    depends_on:
+      - oauth
+    ports:
+      - 5050:5050
+    networks:
+      - app
+  web:
+    image: zoila/web
+    build:
+      context: sample
+      dockerfile: Dockerfile
+    depends_on:
+      - oauth
+    ports:
+      - 8080:80
+    networks:
+      - app
+volumes:
+  psql_data:
+  sample:
+networks: 
+  app:

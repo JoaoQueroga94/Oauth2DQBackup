@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'java'
+    id "io.spring.dependency-management" version "1.0.7.RELEASE"
+}
+
+group = 'br.com.zoila'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+bootJar {
+    baseName = 'evento-resource'
+    version = '0.1.0'
+}
+
+ext {
+    querydslVersion = "4.1.4"
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-web")
+//    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-json")
+
+    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.0.RELEASE'
+
+    compile "org.springframework.data:spring-data-commons"
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+
+    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+
+
+    compile "io.springfox:springfox-swagger2:2.8.0"
+    compile "io.springfox:springfox-data-rest:2.8.0"
+    compile "io.springfox:springfox-bean-validators:2.8.0"
+    compile 'io.springfox:springfox-swagger-ui:2.8.0'
+
+    compile "io.reactivex.rxjava2:rxjava:2.1.10"
+    compile('com.squareup.retrofit2:retrofit:2.3.0') {
+        exclude module: 'okhttp'
+    }
+
+    compile("com.squareup.okhttp3:okhttp:3.9.1")
+    compile("com.squareup.retrofit2:converter-jackson:2.3.0")
+}
